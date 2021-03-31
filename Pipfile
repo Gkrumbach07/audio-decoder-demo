@@ -1,6 +1,12 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+
 [packages]
 kafka = "*"
 flair = "*"
 nltk = "*"
 torch = "==1.6"
 
+[requires]
+python_version = "3.8"
