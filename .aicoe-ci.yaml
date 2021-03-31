@@ -6,6 +6,6 @@ build:
   build-source-script: "image:///opt/app-root/builder"
   base-image: quay.io/thoth-station/s2i-custom-py38-notebook:latest
   registry: quay.io
-  registry-org: aicoe
+  registry-org: gkrumbach07
   registry-project: audio-decoder-demo
   registry-secret: gkrumbach07-push-secret-pull-secret
