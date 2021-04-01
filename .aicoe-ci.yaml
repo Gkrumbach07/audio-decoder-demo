@@ -3,7 +3,7 @@ check:
 build:
   build-stratergy: Source
   build-source-script: "image:///opt/app-root/builder"
-  base-image: quay.io/thoth-station/s2i-custom-py38-notebook:latest
+  base-image: quay.io/thoth-station/s2i-custom-notebook:latest
   registry: quay.io
   registry-org: gkrumbach07
   registry-project: audio-decoder-demo
