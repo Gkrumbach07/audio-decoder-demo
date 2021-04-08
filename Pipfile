@@ -9,6 +9,8 @@ flair = "*"
 nltk = "*"
 torch = "==1.6"
 scipy = "*"
+ipywidgets = "*"
+IProgress = "*"
 
 [requires]
 python_version = "3.6"
