@@ -106,7 +106,7 @@ is properly disturbing the load still.
   - https://github.com/Gkrumbach07/docker-py-kaldi-asr (api & simulator)
   - https://github.com/Gkrumbach07/call_center_manage (web app)
 - You can open up a PR on the Git Repository highlighting the feature or issue, and we will address it.
-- You can also reach out to gkrumbach@redhat.com for any questions.
+- You can also reach out to gkrumbac@redhat.com for any questions.
 
 ## References
 [1] https://www.redhat.com/en/topics/api/what-is-a-rest-api
