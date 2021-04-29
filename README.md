@@ -2,9 +2,11 @@
 ### In this demo
 We will look into solving an architectural problem in an end to end machine learning application.
 First we will walk through the sample problem and outline the solution. Then we will
-get the sample application running for you to test.
+get the sample application running for you to try out.
 
 ## Introduction
+This end to end demo tackles the problem of dealing with state in a realtime machine learning
+application.
 ### Statefulness
 In general, when an application is stateful, it utilizes pervious interactions.
 For example this could be a shopping cart on an e-commerce website. In a stateful API,
@@ -12,37 +14,39 @@ each request builds of the last request where a single request can not be
 interpreted alone. These types of APIs are not as common due to them breaking
 a fundamental REST constraint: being stateless [[1](https://www.redhat.com/en/topics/api/what-is-a-rest-api)]. Therefore many of the benefits of REST APIs are no longer available such as easy scaling.
 
-In some use cases, live analysis is desired which creates numerous issues for your
+In some use cases, realtime analysis is desired which creates numerous issues for your
 architecture such as scheduling tasks and scaling up your model services. In this
 demo we will look into a use case where multiple models need to be strung together
 for realtime analysis.
 
-## Problem
+### Problem
 Imagine you are call center supervisor and need to manage 100+ phone lines. You
 are responsible for making sure the quality of the calls are positive. Right now
 you are randomly joining calls and monitoring them individually but you would like
 to automate this process.
 
-# Solution
-We can use two model services to accomplish this:
-- An audio decoding model
-- A sentiment analysis model
+## Solution
+We will build our app using OpenShift and Open Data Hub. We can deploy two model
+services to solve our problem:
+- An audio decoding model - to convert to live phone calls to text.
+- A sentiment analysis model - to extract relevant information from the text.
 
-We can also create a simple web app to display our model's output in a readable
-table.
+We will also deploy a web app to display our model's output in a readable
+format.
 
 **Note**
 
 The audio decoding model is deployed using a stateful API. Because it is decoding audio live,
 it only gets chunks of audio every 1 second apposed to getting all the audio in one big file.
-Therefore, we must save the state of the API, otherwise it loses all reference of
+Therefore, we must save the state / previous audio chunk in the API, otherwise the model loses all reference of
 the previously decoded speech, resulting in poor model performance.
 
 ## Issues
-1. How do we string together all of our components?
-2. How do we scale our audio decoder model?
+1. How do we string together all of our components (models, web app, phone lines)?
+2. How do we scale our audio decoder model (support many phone lines)?
 
 ![arch-1](https://user-images.githubusercontent.com/12587674/115573580-7d833400-a286-11eb-99d8-22429b2ebdac.png)
+Figure 1. architecture layout with missing connection between the elements of the app.
 
 ## Stringing it together
 What we want is something that will send data from our audio decoder model, to our
@@ -52,13 +56,33 @@ loads (more phone lines).
 
 We will use Kafka to accomplish this [[2](https://kafka.apache.org/intro)].
 Kafka will stream the data from the outputs of our models to the inputs of the
-other models. We will also configure Kafka to `auto-commit` messages. This means
+other models. We will also configure Kafka to auto commit messages. This means
 that when we scale our model services to multiple instances, Kafka will distribute the processing load
-across each instance. Kafka also prevents a single instance from reprocessing already processed data.
+across each instance while preventing reprocessing of already processed data. This is done
+by keeping all of our consumers (sentiment analysis model service instances) on the same group id.
+Consumers with the same group id will not reprocess already processed data.
 
 ![arch-2](https://user-images.githubusercontent.com/12587674/115574054-e79bd900-a286-11eb-8162-83087f331ca5.png)
+Figure 2. architecture layout with Kafka introduced and connected
 
+## Scaling the audio decoder
+The last issue in our architecture is how we will scale our stateful API (audio decoder).
+Because the API needs to store the state of previous calls, we can not use the traditional
+scaling features of a REST API. Those strategies might use a round-robin load balancing
+technique which does not guarantee that clients will hit the same endpoint on every
+call to the API. To fix this, we can utilize OpenShift sticky sessions [[3](https://docs.openshift.com/container-platform/4.7/networking/routes/route-configuration.html#nw-using-cookies-keep-route-statefulness_route-configuration)]. This feature tells the
+ingress controller to attach a cookie to a api response, where a cookie is linked
+to an endpoint. Meaning a client will always go to the same endpoint as long as it
+stores the cookie and uses it in the next API request.
+
+![arch-3](https://user-images.githubusercontent.com/12587674/116575164-037d2b80-a8d4-11eb-9e3b-1b249c4fe67d.png)
+Figure 3. ingress controller using cookies to maintain statefulness.
+
+Now we can safely scale the API as if it was a REST API.
 
 ## References
 [1] https://www.redhat.com/en/topics/api/what-is-a-rest-api
+
 [2] https://kafka.apache.org/intro
+
+[3] https://docs.openshift.com/container-platform/4.7/networking/routes/route-configuration.html#nw-using-cookies-keep-route-statefulness_route-configuration
