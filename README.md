@@ -8,19 +8,19 @@ get the sample application running for you to try out.
 This end to end demo tackles the problem of dealing with state in a realtime machine learning
 application.
 ### Statefulness
-In general, when an application is stateful, it utilizes pervious interactions.
+In general, when an application is stateful, it utilizes previous interactions.
 For example this could be a shopping cart on an e-commerce website. In a stateful API,
 each request builds of the last request where a single request can not be
 interpreted alone. These types of APIs are not as common due to them breaking
 a fundamental REST constraint: being stateless [[1](https://www.redhat.com/en/topics/api/what-is-a-rest-api)]. Therefore many of the benefits of REST APIs are no longer available such as easy scaling.
 
-In some use cases, realtime analysis is desired which creates numerous issues for your
+In some use cases, real time analysis is desired which creates numerous issues for your
 architecture such as scheduling tasks and scaling up your model services. In this
 demo we will look into a use case where multiple models need to be strung together
-for realtime analysis.
+for real time analysis.
 
 ## Problem
-Imagine you are call center supervisor and need to manage 100+ phone lines. You
+Imagine you are a call center supervisor and need to manage 100+ phone lines. You
 are responsible for making sure the quality of the calls are positive. Right now
 you are randomly joining calls and monitoring them individually but you would like
 to automate this process.
@@ -37,7 +37,7 @@ format.
 **Note**
 
 The audio decoding model is deployed using a stateful API. Because it is decoding audio live,
-it only gets chunks of audio every 1 second apposed to getting all the audio in one big file.
+it only gets chunks of audio every 1 second opposed to getting all the audio in one big file.
 Therefore, we must save the state / previous audio chunk in the API, otherwise the model loses all reference of
 the previously decoded speech, resulting in poor model performance.
 
