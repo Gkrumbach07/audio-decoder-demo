@@ -1,10 +1,20 @@
-# Stateful Sessions for Intelligent Apps
-### In this demo
+---
+title: Stateful Sessions for Intelligent Apps
+description: "Stateful Sessions for Intelligent Apps"
+---
+
+_Authors:_ Gage Krumbach
+
+_Date Created:_ 30th April 2021
+
+_Tags:_ api, stateful, state, kafka, openshift, sticky sessions, sentiment analysis, realtime, audio decoding
+
+## In this demo
 We will look into solving an architectural problem in an end to end machine learning application.
 First we will walk through the sample problem and outline the solution. Then we will
-get the sample application running for you to try out. Also feel free to check out the [talk](https://www.youtube.com/watch?v=F_n90IBrSaM) I did
-at DevConf where I went into more
- detail on the setup and troubleshooting of use cases like this [[1](https://www.youtube.com/watch?v=F_n90IBrSaM)][[2](https://devconfcz2021.sched.com/event/gmNH)].
+get the sample application running for you to try out. Also feel free to check out the talk [[1](https://www.youtube.com/watch?v=F_n90IBrSaM)] I did
+at DevConf [[2](https://devconfcz2021.sched.com/event/gmNH)] where I went into more
+ detail on the setup and troubleshooting of use cases like this.
 
 ## Introduction
 This end to end demo tackles the problem of dealing with state in a realtime machine learning
@@ -86,11 +96,11 @@ Figure 3. ingress controller using cookies to maintain statefulness.
 ## Conclusion
 This technique for preserving state in an API is not the only solution nor is it
 a complete solution. However this technique provides a quick and relatively lightweight
-way of making an API scalable. Because this type of architecture follows a
+way of making the API scalable. Because this type of architecture follows a
 pipe and filter approach to data flow, it is easy to update single components such as
-the model service without altering connections between components. A data scientists can directly play around with the ML notebook while it
+the model service. A data scientists can directly play around with the ML notebook while it
 is functioning inside the architecture as a whole. That alone is a powerful development tool.
-You will have a chance to see that in action below. 
+You will have a chance to see that in action below.
 
 ## Project Materials
 ### Launch the sentiment analysis model service
