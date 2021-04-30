@@ -2,7 +2,9 @@
 ### In this demo
 We will look into solving an architectural problem in an end to end machine learning application.
 First we will walk through the sample problem and outline the solution. Then we will
-get the sample application running for you to try out.
+get the sample application running for you to try out. Also feel free to check out the talk [[1](https://www.youtube.com/watch?v=F_n90IBrSaM)] I did
+at DevConf [[2](https://devconfcz2021.sched.com/event/gmNH)] where I went into more
+ detail on the setup and troubleshooting of use cases like this.
 
 ## Introduction
 This end to end demo tackles the problem of dealing with state in a realtime machine learning
@@ -10,14 +12,15 @@ application.
 ### Statefulness
 In general, when an application is stateful, it utilizes previous interactions.
 For example this could be a shopping cart on an e-commerce website. In a stateful API,
-each request builds of the last request where a single request can not be
-interpreted alone. These types of APIs are not as common due to them breaking
-a fundamental REST constraint: being stateless [[1](https://www.redhat.com/en/topics/api/what-is-a-rest-api)]. Therefore many of the benefits of REST APIs are no longer available such as easy scaling.
+each request builds off the last request where a single request can not be
+interpreted alone. These types of APIs go against OpenShift/Kube's default model of
+having "stateless microservices". Therefore many of the benefits of OpenShift's
+scale-out compute resources are no longer available.
 
 In some use cases, real time analysis is desired which creates numerous issues for your
 architecture such as scheduling tasks and scaling up your model services. In this
 demo we will look into a use case where multiple models need to be strung together
-for real time analysis.
+for real time analysis. We will also tackle the scaling issue for stateful APIs.
 
 ## Problem
 Imagine you are a call center supervisor and need to manage 100+ phone lines. You
@@ -54,7 +57,7 @@ sentiment analysis model, and then finally to our web app for visualization. We 
 want to scale our models, so that they cumulatively can handle larger
 loads (more phone lines).
 
-We will use Kafka to accomplish this [[2](https://kafka.apache.org/intro)].
+We will use Kafka to accomplish this [[3](https://kafka.apache.org/intro)].
 Kafka will stream the data from the outputs of our models to the inputs of the
 other models. We will also configure Kafka to auto commit messages. This means
 that when we scale our model services to multiple instances, Kafka will distribute the processing load
@@ -70,7 +73,7 @@ The last issue in our architecture is how we will scale our stateful API (audio 
 Because the API needs to store the state of previous calls, we can not use the traditional
 scaling features of a REST API. Those strategies might use a round-robin load balancing
 technique which does not guarantee that clients will hit the same endpoint on every
-call to the API. To fix this, we can utilize OpenShift sticky sessions [[3](https://docs.openshift.com/container-platform/4.7/networking/routes/route-configuration.html#nw-using-cookies-keep-route-statefulness_route-configuration)]. This feature tells the
+call to the API. To fix this, we can utilize OpenShift sticky sessions [[4](https://docs.openshift.com/container-platform/4.7/networking/routes/route-configuration.html#nw-using-cookies-keep-route-statefulness_route-configuration)]. This feature tells the
 ingress controller to attach a cookie to a api response, where a cookie is linked
 to an endpoint. Meaning a client will always go to the same endpoint as long as it
 stores the cookie and uses it in the next API request.
@@ -109,8 +112,13 @@ is properly disturbing the load still.
 - You can also reach out to gkrumbac@redhat.com for any questions.
 
 ## References
-[1] https://www.redhat.com/en/topics/api/what-is-a-rest-api
+[1] https://www.youtube.com/watch?v=F_n90IBrSaM
 
-[2] https://kafka.apache.org/intro
+[2] https://devconfcz2021.sched.com/event/gmNH
 
-[3] https://docs.openshift.com/container-platform/4.7/networking/routes/route-configuration.html#nw-using-cookies-keep-route-statefulness_route-configuration
+[3] https://kafka.apache.org/intro
+
+[4] https://docs.openshift.com/container-platform/4.7/networking/routes/route-configuration.html#nw-using-cookies-keep-route-statefulness_route-configuration
+
+
+
