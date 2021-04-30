@@ -83,6 +83,15 @@ Now we can safely scale the API as if it was a REST API.
 ![arch-3](https://user-images.githubusercontent.com/12587674/116575164-037d2b80-a8d4-11eb-9e3b-1b249c4fe67d.png)
 Figure 3. ingress controller using cookies to maintain statefulness.
 
+## Conclusion
+This technique for preserving state in an API is not the only solution nor is it
+a complete solution. However this technique provides a quick and relatively lightweight
+way of making an API scalable. Because this type of architecture follows a
+pipe and filter approach to data flow, it is easy to update single components such as
+the model service without altering connections between components. A data scientists can directly play around with the ML notebook while it
+is functioning inside the architecture as a whole. That alone is a powerful development tool.
+You will have a chance to see that in action below. 
+
 ## Project Materials
 ### Launch the sentiment analysis model service
 In this demo there is a default sentiment analysis model service that is always
@@ -119,6 +128,3 @@ is properly disturbing the load still.
 [3] https://kafka.apache.org/intro
 
 [4] https://docs.openshift.com/container-platform/4.7/networking/routes/route-configuration.html#nw-using-cookies-keep-route-statefulness_route-configuration
-
-
-
