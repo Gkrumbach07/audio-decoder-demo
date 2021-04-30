@@ -2,7 +2,7 @@
 ### In this demo
 We will look into solving an architectural problem in an end to end machine learning application.
 First we will walk through the sample problem and outline the solution. Then we will
-get the sample application running for you to try out. Also feel free to check out the talk I did
+get the sample application running for you to try out. Also feel free to check out the [talk](https://www.youtube.com/watch?v=F_n90IBrSaM) I did
 at DevConf where I went into more
  detail on the setup and troubleshooting of use cases like this [[1](https://www.youtube.com/watch?v=F_n90IBrSaM)][[2](https://devconfcz2021.sched.com/event/gmNH)].
 
