@@ -6,6 +6,7 @@ description: "Stateful Sessions for Intelligent Apps"
 _Authors:_ Gage Krumbach
 
 _Date Created:_ 30th April 2021
+
 _Last Updated:_ 3rd June 2021
 
 _Tags:_ api, stateful, state, kafka, openshift, sticky sessions, sentiment analysis, realtime, audio decoding
