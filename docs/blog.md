@@ -6,6 +6,7 @@ description: "Stateful Sessions for Intelligent Apps"
 _Authors:_ Gage Krumbach
 
 _Date Created:_ 30th April 2021
+_Last Updated:_ 3rd June 2021
 
 _Tags:_ api, stateful, state, kafka, openshift, sticky sessions, sentiment analysis, realtime, audio decoding
 
@@ -107,7 +108,7 @@ You will have a chance to see that in action below.
 In this demo there is a default sentiment analysis model service that is always
 running. You will be contributing to the computations in your Jupyter notebook
 in parallel with the default model service.
-1. Visit https://odh.operate-first.cloud\
+1. Visit https://odh.operate-first.cloud
 2. Launch JupyterHub
 3. Login with moc-sso and then login your google account
 4. In this Spawn screen, select `audio-decoder-demo:latest` (no need to change other settings)
